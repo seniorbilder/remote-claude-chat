@@ -12,8 +12,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Kiona", "system-ui", "sans-serif"],
-        display: ["Kiona", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
@@ -71,8 +70,8 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        xl: "12px",
-        "2xl": "16px",
+        xl: "16px",
+        "2xl": "20px",
       },
       keyframes: {
         "accordion-down": {

@@ -32,28 +32,28 @@ export function ChatInput({ onSend, disabled }: Props) {
   };
 
   return (
-    <div className="border-t border-border bg-background px-4 py-4">
+    <div className="border-t border-border bg-background/80 backdrop-blur-xl px-4 py-4">
       <div className="max-w-[760px] mx-auto">
-        <div className="relative bg-surface border border-border rounded-md focus-within:border-muted-foreground transition-colors">
+        <div className="relative bg-card border border-border rounded-2xl focus-within:border-primary/30 focus-within:shadow-lg focus-within:shadow-primary/5 transition-all duration-300 card-glow">
           <textarea
             ref={textareaRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Message Claude..."
+            placeholder="Message ChatMe..."
             rows={1}
-            className="w-full bg-transparent px-3 py-2.5 pr-11 text-[13px] text-foreground placeholder:text-hint resize-none focus:outline-none"
+            className="w-full bg-transparent px-4 py-3.5 pr-14 text-sm text-foreground placeholder:text-hint resize-none focus:outline-none"
           />
           <button
             onClick={handleSend}
             disabled={!value.trim() || disabled}
-            className="absolute right-2 bottom-2 w-7 h-7 flex items-center justify-center rounded bg-foreground text-background transition-all hover:bg-foreground/85 disabled:opacity-20"
+            className="absolute right-2.5 bottom-2.5 w-8 h-8 flex items-center justify-center rounded-xl gradient-accent text-white shadow-md shadow-primary/20 transition-all duration-200 hover:opacity-90 hover:shadow-lg hover:shadow-primary/30 disabled:opacity-20 disabled:shadow-none"
             aria-label="Send message"
           >
-            <ArrowUp className="w-3.5 h-3.5" />
+            <ArrowUp className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-[10px] text-hint text-center mt-1.5">
+        <p className="text-[10px] text-hint text-center mt-2.5">
           Enter to send · Shift+Enter for new line
         </p>
       </div>

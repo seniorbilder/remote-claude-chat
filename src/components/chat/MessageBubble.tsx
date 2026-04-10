@@ -10,8 +10,10 @@ interface Props {
 export function MessageBubble({ message }: Props) {
   if (message.role === 'system') {
     return (
-      <div className="text-center py-2 animate-message-in">
-        <span className="text-[12px] italic text-muted-foreground">{message.content}</span>
+      <div className="text-center py-3 animate-message-in">
+        <span className="text-xs italic text-muted-foreground bg-secondary px-3 py-1 rounded-full border border-border">
+          {message.content}
+        </span>
       </div>
     );
   }
@@ -21,26 +23,28 @@ export function MessageBubble({ message }: Props) {
   return (
     <div className="flex gap-3 animate-message-in">
       <div
-        className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border ${
-          isUser ? 'border-border bg-surface' : 'border-border bg-surface-elevated'
+        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+          isUser
+            ? 'bg-secondary border border-border'
+            : 'gradient-accent shadow-sm shadow-primary/20'
         }`}
       >
-        <span className="text-[9px] font-semibold text-muted-foreground">
+        <span className={`text-[9px] font-bold ${isUser ? 'text-muted-foreground' : 'text-white'}`}>
           {isUser ? 'U' : 'AI'}
         </span>
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] uppercase tracking-[0.15em] text-hint font-medium mb-1">
-          {isUser ? 'You' : 'Claude'}
+        <p className={`text-[11px] font-medium mb-1.5 ${isUser ? 'text-muted-foreground' : 'text-primary'}`}>
+          {isUser ? 'You' : 'ChatMe'}
         </p>
 
         {isUser ? (
-          <div className="bg-surface border border-border rounded-md px-3.5 py-2.5 text-[13px] text-foreground leading-relaxed">
+          <div className="bg-card border border-border rounded-2xl rounded-tl-md px-4 py-3 text-sm text-foreground leading-relaxed card-glow">
             {message.content}
           </div>
         ) : (
-          <div className="text-[13px] text-foreground/85 leading-relaxed markdown-content">
+          <div className="text-sm text-foreground/90 leading-relaxed markdown-content">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -52,7 +56,7 @@ export function MessageBubble({ message }: Props) {
                   }
                   return (
                     <code
-                      className="bg-surface border border-border rounded px-1 py-0.5 text-[12px] font-mono"
+                      className="bg-secondary border border-border rounded-md px-1.5 py-0.5 text-xs font-mono text-primary"
                       {...props}
                     >
                       {children}
