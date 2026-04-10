@@ -16,18 +16,18 @@ export function CodeBlock({ children, language }: CodeBlockProps) {
   };
 
   return (
-    <div className="my-3 rounded-xl overflow-hidden border border-border bg-[hsl(240,27%,4%)]">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-        <span className="text-xs text-hint font-mono">{language || 'code'}</span>
+    <div className="my-3 rounded-md overflow-hidden border border-border bg-background">
+      <div className="flex items-center justify-between px-3 py-1.5 border-b border-border">
+        <span className="text-[10px] text-hint font-mono uppercase tracking-wider">{language || 'code'}</span>
         <button
           onClick={handleCopy}
           className="text-hint hover:text-muted-foreground transition-colors"
           aria-label="Copy code"
         >
-          {copied ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
+          {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
         </button>
       </div>
-      <pre className="p-4 overflow-x-auto text-sm font-mono text-foreground/90 leading-relaxed">
+      <pre className="p-3 overflow-x-auto text-[13px] font-mono text-foreground/85 leading-relaxed">
         <code>{children}</code>
       </pre>
     </div>
