@@ -1,4 +1,4 @@
-import { MessageSquare, Settings, X } from 'lucide-react';
+import { MessageSquare, Settings, X, Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import useAppStore from '@/store/useAppStore';
 
@@ -11,9 +11,9 @@ export function AppSidebar() {
   const location = useLocation();
   const { connectionStatus, config, sidebarOpen, setSidebarOpen } = useAppStore();
 
-  const statusDot =
+  const statusColor =
     connectionStatus === 'connected'
-      ? 'bg-foreground'
+      ? 'bg-success'
       : connectionStatus === 'error'
       ? 'bg-destructive'
       : 'bg-hint';
@@ -33,27 +33,28 @@ export function AppSidebar() {
     <>
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-background/70 backdrop-blur-md z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-52 flex flex-col border-r border-border bg-sidebar transition-transform duration-200 ${
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-[220px] flex flex-col border-r border-border bg-sidebar transition-transform duration-300 ease-out ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center gap-2.5 px-5 py-6">
-          <div className="w-7 h-7 rounded border border-border flex items-center justify-center bg-surface">
-            <span className="font-display font-bold text-[10px] text-foreground tracking-wider">CM</span>
+        <div className="flex items-center gap-3 px-5 py-5">
+          <div className="w-9 h-9 rounded-xl gradient-accent flex items-center justify-center shadow-lg shadow-primary/20">
+            <Zap className="w-4 h-4 text-white" fill="white" />
           </div>
-          <span className="font-display text-sm font-bold text-foreground tracking-[0.15em] uppercase">
-            ChatMe
-          </span>
+          <div className="flex flex-col">
+            <span className="text-[15px] font-semibold text-foreground tracking-tight">ChatMe</span>
+            <span className="text-[10px] text-muted-foreground font-medium">Remote Terminal</span>
+          </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="ml-auto md:hidden text-muted-foreground hover:text-foreground"
+            className="ml-auto md:hidden text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Close sidebar"
           >
             <X className="w-4 h-4" />
@@ -61,7 +62,7 @@ export function AppSidebar() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-1 space-y-0.5">
+        <nav className="flex-1 px-3 py-3 space-y-1">
           {navItems.map((item) => {
             const active = location.pathname === item.path || (item.path === '/chat' && location.pathname === '/');
             return (
@@ -69,13 +70,13 @@ export function AppSidebar() {
                 key={item.path}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded text-[12px] uppercase tracking-[0.1em] transition-colors ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                   active
-                    ? 'bg-secondary text-foreground font-medium'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                    ? 'bg-primary/10 text-primary border border-primary/20'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary border border-transparent'
                 }`}
               >
-                <item.icon className="w-3.5 h-3.5" />
+                <item.icon className="w-4 h-4" />
                 <span>{item.title}</span>
               </Link>
             );
@@ -83,17 +84,17 @@ export function AppSidebar() {
         </nav>
 
         {/* Status */}
-        <div className="px-5 py-4 border-t border-border">
+        <div className="mx-3 mb-4 p-3 rounded-xl bg-secondary/50 border border-border">
           <div className="flex items-center gap-2">
             <div
-              className={`w-1.5 h-1.5 rounded-full ${statusDot} ${
+              className={`w-2 h-2 rounded-full ${statusColor} ${
                 connectionStatus === 'connected' ? 'animate-pulse-glow' : ''
               }`}
             />
-            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{statusText}</span>
+            <span className="text-[11px] text-muted-foreground font-medium">{statusText}</span>
           </div>
           {connectionStatus === 'connected' && config.host && (
-            <p className="text-[9px] text-hint mt-1 truncate font-mono">
+            <p className="text-[10px] text-hint mt-1.5 truncate font-mono">
               {config.username}@{config.host}
             </p>
           )}

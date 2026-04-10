@@ -1,33 +1,36 @@
-import { Terminal } from 'lucide-react';
+import { Terminal, Sparkles } from 'lucide-react';
 
 interface Props {
   onSuggestion: (text: string) => void;
 }
 
 const suggestions = [
-  'Explain this codebase',
-  'Find all TODO comments',
-  'Refactor the auth module',
+  { text: 'Explain this codebase', emoji: '📖' },
+  { text: 'Find all TODO comments', emoji: '🔍' },
+  { text: 'Refactor the auth module', emoji: '🔧' },
 ];
 
 export function EmptyState({ onSuggestion }: Props) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6">
-      <Terminal className="w-8 h-8 text-hint/15 mb-5" strokeWidth={1} />
-      <h2 className="font-display text-base font-bold text-foreground mb-1 tracking-[0.12em] uppercase">
-        ChatMe
+      <div className="w-16 h-16 rounded-2xl gradient-accent flex items-center justify-center mb-6 shadow-lg shadow-primary/20">
+        <Sparkles className="w-7 h-7 text-white" />
+      </div>
+      <h2 className="text-xl font-bold text-foreground mb-2 tracking-tight">
+        Welcome to ChatMe
       </h2>
-      <p className="text-[12px] text-muted-foreground text-center max-w-xs mb-7 leading-relaxed">
-        Send a message to Claude Code on your remote server via SSH.
+      <p className="text-sm text-muted-foreground text-center max-w-sm mb-8 leading-relaxed">
+        Send a message to Claude Code on your remote server. Everything runs via SSH — nothing leaves your infrastructure.
       </p>
       <div className="flex flex-wrap gap-2 justify-center">
         {suggestions.map((s) => (
           <button
-            key={s}
-            onClick={() => onSuggestion(s)}
-            className="px-3 py-1.5 text-[11px] text-muted-foreground border border-border rounded hover:bg-surface hover:text-foreground transition-colors uppercase tracking-wider"
+            key={s.text}
+            onClick={() => onSuggestion(s.text)}
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground bg-card border border-border rounded-xl hover:bg-secondary hover:text-foreground hover:border-primary/20 transition-all duration-200 card-glow"
           >
-            {s}
+            <span>{s.emoji}</span>
+            <span>{s.text}</span>
           </button>
         ))}
       </div>

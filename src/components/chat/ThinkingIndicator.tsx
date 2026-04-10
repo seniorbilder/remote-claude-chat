@@ -1,13 +1,13 @@
 export function ThinkingIndicator() {
   return (
     <div className="flex items-center gap-3 animate-message-in">
-      <div className="w-6 h-6 rounded-full border border-border bg-surface-elevated flex items-center justify-center shrink-0">
-        <span className="text-[9px] font-semibold text-muted-foreground">AI</span>
+      <div className="w-7 h-7 rounded-full gradient-accent flex items-center justify-center shrink-0 shadow-sm shadow-primary/20">
+        <span className="text-[9px] font-bold text-white">AI</span>
       </div>
-      <div className="flex items-center gap-1 px-2 py-2">
-        <div className="w-1 h-1 rounded-full bg-muted-foreground animate-dot-1" />
-        <div className="w-1 h-1 rounded-full bg-muted-foreground animate-dot-2" />
-        <div className="w-1 h-1 rounded-full bg-muted-foreground animate-dot-3" />
+      <div className="flex items-center gap-1.5 px-3 py-2 bg-card rounded-xl border border-border">
+        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-dot-1" />
+        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-dot-2" />
+        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-dot-3" />
       </div>
     </div>
   );
