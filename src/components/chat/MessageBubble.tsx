@@ -11,7 +11,7 @@ export function MessageBubble({ message }: Props) {
   if (message.role === 'system') {
     return (
       <div className="text-center py-2 animate-message-in">
-        <span className="text-xs italic text-muted-foreground">{message.content}</span>
+        <span className="text-[12px] italic text-muted-foreground">{message.content}</span>
       </div>
     );
   }
@@ -20,34 +20,27 @@ export function MessageBubble({ message }: Props) {
 
   return (
     <div className="flex gap-3 animate-message-in">
-      {/* Avatar */}
       <div
-        className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
-          isUser ? 'bg-surface-elevated' : 'bg-primary/20'
+        className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 border ${
+          isUser ? 'border-border bg-surface' : 'border-border bg-surface-elevated'
         }`}
       >
-        <span
-          className={`text-[10px] font-bold ${
-            isUser ? 'text-muted-foreground' : 'text-primary'
-          }`}
-        >
+        <span className="text-[9px] font-semibold text-muted-foreground">
           {isUser ? 'U' : 'AI'}
         </span>
       </div>
 
       <div className="flex-1 min-w-0">
-        {/* Label */}
-        <p className="text-[10px] uppercase tracking-widest text-hint font-medium mb-1">
+        <p className="text-[10px] uppercase tracking-[0.15em] text-hint font-medium mb-1">
           {isUser ? 'You' : 'Claude'}
         </p>
 
-        {/* Content */}
         {isUser ? (
-          <div className="bg-surface-elevated border border-border rounded-xl px-4 py-3 text-sm text-foreground leading-relaxed">
+          <div className="bg-surface border border-border rounded-md px-3.5 py-2.5 text-[13px] text-foreground leading-relaxed">
             {message.content}
           </div>
         ) : (
-          <div className="text-sm text-foreground/90 leading-relaxed markdown-content">
+          <div className="text-[13px] text-foreground/85 leading-relaxed markdown-content">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -59,7 +52,7 @@ export function MessageBubble({ message }: Props) {
                   }
                   return (
                     <code
-                      className="bg-surface-elevated border border-border rounded px-1.5 py-0.5 text-xs font-mono text-primary"
+                      className="bg-surface border border-border rounded px-1 py-0.5 text-[12px] font-mono"
                       {...props}
                     >
                       {children}

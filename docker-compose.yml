@@ -1,0 +1,7 @@
+services:
+  claude-remote:
+    build: .
+    ports:
+      - "9525:9525"
+    restart: unless-stopped
+    container_name: claude-remote

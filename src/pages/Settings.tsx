@@ -10,10 +10,7 @@ export default function SettingsPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [testing, setTesting] = useState(false);
-  const [testResult, setTestResult] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
   const [keySaved, setKeySaved] = useState(configSaved && config.authMethod === 'key');
   const [showKeyField, setShowKeyField] = useState(!keySaved);
 
@@ -27,8 +24,6 @@ export default function SettingsPage() {
   const handleTest = async () => {
     setTesting(true);
     setTestResult(null);
-
-    // Simulate connection test
     await new Promise((r) => setTimeout(r, 2000));
 
     if (!config.host || !config.username) {
@@ -37,66 +32,58 @@ export default function SettingsPage() {
       return;
     }
 
-    // Simulated success
-    setTestResult({
-      success: true,
-      message: '✓ Connected successfully! Claude Code v1.0.12 detected',
-    });
+    setTestResult({ success: true, message: 'Connected successfully — Claude Code v1.0.12 detected' });
     setConnectionStatus('connected');
     setClaudeVersion('1.0.12');
     setTesting(false);
   };
 
-  const handleSaveAndTest = () => {
-    handleSave();
-    handleTest().then(() => {
-      // If test was successful, navigate to chat after a moment
-    });
-  };
-
   const isValid = config.host.trim() !== '' && config.username.trim() !== '';
+
+  const inputClass =
+    'w-full bg-surface border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-muted-foreground input-focus-glow transition-colors';
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="max-w-[600px] mx-auto px-6 py-10">
-        <div className="mb-8">
-          <h1 className="text-xl font-semibold text-foreground">Connection Settings</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+      <div className="max-w-[560px] mx-auto px-6 py-12">
+        <div className="mb-10">
+          <h1 className="text-lg font-semibold text-foreground tracking-tight">Connection Settings</h1>
+          <p className="text-[13px] text-muted-foreground mt-1">
             Configure SSH access to your remote Claude Code server
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* Host + Port */}
           <div className="flex gap-3">
             <div className="flex-[7]">
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
-                Host / IP Address
+              <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
+                Host
               </label>
               <input
                 type="text"
                 value={config.host}
                 onChange={(e) => setConfig({ host: e.target.value })}
-                placeholder="192.168.1.100 or myserver.example.com"
-                className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-primary input-focus-glow transition-all font-mono"
+                placeholder="192.168.1.100"
+                className={`${inputClass} font-mono`}
               />
             </div>
             <div className="flex-[3]">
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
                 Port
               </label>
               <input
                 type="number"
                 value={config.port}
                 onChange={(e) => setConfig({ port: parseInt(e.target.value) || 22 })}
-                className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary input-focus-glow transition-all font-mono"
+                className={`${inputClass} font-mono`}
               />
             </div>
           </div>
 
           {/* Username */}
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
+            <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
               Username
             </label>
             <input
@@ -104,16 +91,16 @@ export default function SettingsPage() {
               value={config.username}
               onChange={(e) => setConfig({ username: e.target.value })}
               placeholder="ubuntu"
-              className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-primary input-focus-glow transition-all font-mono"
+              className={`${inputClass} font-mono`}
             />
           </div>
 
           {/* Auth Method */}
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
-              Authentication Method
+            <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
+              Authentication
             </label>
-            <div className="inline-flex bg-surface border border-border rounded-lg p-1">
+            <div className="inline-flex bg-surface border border-border rounded-md p-0.5">
               {(['key', 'password'] as const).map((method) => (
                 <button
                   key={method}
@@ -121,9 +108,9 @@ export default function SettingsPage() {
                     setConfig({ authMethod: method });
                     if (method === 'key') setShowKeyField(true);
                   }}
-                  className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-150 ${
+                  className={`px-4 py-1.5 rounded text-[12px] font-medium transition-colors ${
                     config.authMethod === method
-                      ? 'bg-primary text-primary-foreground'
+                      ? 'bg-foreground text-background'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -138,52 +125,52 @@ export default function SettingsPage() {
             <div className="space-y-4">
               {keySaved && !showKeyField ? (
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
+                  <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
                     Private Key
                   </label>
-                  <div className="flex items-center gap-3 bg-surface border border-border rounded-lg px-3 py-2.5">
-                    <span className="text-sm text-muted-foreground">••••• (key saved)</span>
+                  <div className="flex items-center gap-3 bg-surface border border-border rounded-md px-3 py-2">
+                    <span className="text-sm text-muted-foreground font-mono">••••• (saved)</span>
                     <button
                       onClick={() => setShowKeyField(true)}
-                      className="text-xs text-primary hover:text-primary/80 font-medium"
+                      className="text-[11px] text-foreground underline underline-offset-2 hover:text-muted-foreground"
                     >
-                      Replace Key
+                      Replace
                     </button>
                   </div>
                 </div>
               ) : (
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
+                  <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
                     Private Key
                   </label>
                   <textarea
                     value={config.privateKey || ''}
                     onChange={(e) => setConfig({ privateKey: e.target.value })}
-                    placeholder={"-----BEGIN OPENSSH PRIVATE KEY-----\n...paste your full private key here...\n-----END OPENSSH PRIVATE KEY-----"}
-                    rows={7}
-                    className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-primary input-focus-glow transition-all font-mono resize-none"
+                    placeholder={"-----BEGIN OPENSSH PRIVATE KEY-----\n...\n-----END OPENSSH PRIVATE KEY-----"}
+                    rows={6}
+                    className={`${inputClass} font-mono resize-none`}
                   />
-                  <p className="text-xs text-hint mt-1.5">
-                    Paste the full content of your private key file. You can export this from Termius (Keychain → select key → Export).
+                  <p className="text-[11px] text-hint mt-1">
+                    Paste the full content of your private key file.
                   </p>
                 </div>
               )}
               <div>
-                <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
-                  Key Passphrase <span className="text-hint">(optional)</span>
+                <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
+                  Passphrase <span className="text-hint">(optional)</span>
                 </label>
                 <input
                   type="password"
                   value={config.passphrase || ''}
                   onChange={(e) => setConfig({ passphrase: e.target.value })}
-                  placeholder="Leave empty if key has no passphrase"
-                  className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-primary input-focus-glow transition-all"
+                  placeholder="Leave empty if none"
+                  className={inputClass}
                 />
               </div>
             </div>
           ) : (
             <div>
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
+              <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
                 Password
               </label>
               <div className="relative">
@@ -191,8 +178,8 @@ export default function SettingsPage() {
                   type={showPassword ? 'text' : 'password'}
                   value={config.password || ''}
                   onChange={(e) => setConfig({ password: e.target.value })}
-                  placeholder="Enter server password"
-                  className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 pr-10 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-primary input-focus-glow transition-all"
+                  placeholder="Enter password"
+                  className={`${inputClass} pr-10`}
                 />
                 <button
                   type="button"
@@ -200,7 +187,7 @@ export default function SettingsPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-hint hover:text-muted-foreground"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
               </div>
             </div>
@@ -208,7 +195,7 @@ export default function SettingsPage() {
 
           {/* Working Directory */}
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5 uppercase tracking-wide">
+            <label className="block text-[11px] font-medium text-muted-foreground mb-1.5 uppercase tracking-wider">
               Working Directory
             </label>
             <input
@@ -216,30 +203,30 @@ export default function SettingsPage() {
               value={config.workingDirectory}
               onChange={(e) => setConfig({ workingDirectory: e.target.value })}
               placeholder="~"
-              className="w-full bg-surface border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-hint focus:outline-none focus:border-primary input-focus-glow transition-all font-mono"
+              className={`${inputClass} font-mono`}
             />
-            <p className="text-xs text-hint mt-1.5">
-              The directory on the remote server where Claude Code will execute commands from.
+            <p className="text-[11px] text-hint mt-1">
+              Directory where Claude Code executes commands.
             </p>
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-2 pt-3">
             <button
               onClick={handleSave}
               disabled={!isValid}
-              className="px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 disabled:hover:scale-100"
+              className="px-4 py-2 bg-foreground text-background text-[13px] font-medium rounded-md hover:bg-foreground/90 active:scale-[0.98] transition-all disabled:opacity-30"
             >
-              Save Configuration
+              Save
             </button>
             <button
               onClick={handleTest}
               disabled={!isValid || testing}
-              className="px-5 py-2.5 border border-border text-foreground text-sm font-medium rounded-lg hover:bg-surface-elevated hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 disabled:hover:scale-100 flex items-center gap-2"
+              className="px-4 py-2 border border-border text-foreground text-[13px] font-medium rounded-md hover:bg-secondary active:scale-[0.98] transition-all disabled:opacity-30 flex items-center gap-2"
             >
               {testing ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
                   Testing...
                 </>
               ) : (
@@ -248,28 +235,28 @@ export default function SettingsPage() {
             </button>
           </div>
 
-          {/* Test Result */}
+          {/* Result */}
           {testResult && (
             <div
-              className={`flex items-start gap-3 p-4 rounded-xl border ${
+              className={`flex items-start gap-2.5 p-3 rounded-md border text-sm ${
                 testResult.success
-                  ? 'bg-success/5 border-success/20 text-success'
-                  : 'bg-destructive/5 border-destructive/20 text-destructive'
+                  ? 'border-border bg-surface text-foreground'
+                  : 'border-destructive/30 bg-destructive/5 text-destructive'
               }`}
             >
               {testResult.success ? (
-                <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
               ) : (
-                <XCircle className="w-5 h-5 mt-0.5 shrink-0" />
+                <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
               )}
-              <p className="text-sm">{testResult.message}</p>
+              <p className="text-[13px]">{testResult.message}</p>
             </div>
           )}
 
           {testResult?.success && (
             <button
               onClick={() => navigate('/chat')}
-              className="w-full px-5 py-3 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:scale-[1.01] active:scale-[0.99] transition-all"
+              className="w-full px-4 py-2.5 bg-foreground text-background text-[13px] font-medium rounded-md hover:bg-foreground/90 active:scale-[0.98] transition-all"
             >
               Start Chatting →
             </button>
