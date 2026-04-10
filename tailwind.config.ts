@@ -12,7 +12,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Kiona", "system-ui", "sans-serif"],
+        display: ["Kiona", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {

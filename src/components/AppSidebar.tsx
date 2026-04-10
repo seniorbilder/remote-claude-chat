@@ -33,27 +33,24 @@ export function AppSidebar() {
     <>
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-background/70 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-56 flex flex-col border-r border-border bg-sidebar transition-transform duration-200 ${
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-52 flex flex-col border-r border-border bg-sidebar transition-transform duration-200 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 px-5 py-5">
-          <div className="w-7 h-7 rounded-md border border-border flex items-center justify-center">
-            <span className="font-mono font-semibold text-[10px] text-foreground">CR</span>
+        <div className="flex items-center gap-2.5 px-5 py-6">
+          <div className="w-7 h-7 rounded border border-border flex items-center justify-center bg-surface">
+            <span className="font-display font-bold text-[10px] text-foreground tracking-wider">CM</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-foreground tracking-tight">Claude Remote</span>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-hint font-medium">
-              Terminal
-            </span>
-          </div>
+          <span className="font-display text-sm font-bold text-foreground tracking-[0.15em] uppercase">
+            ChatMe
+          </span>
           <button
             onClick={() => setSidebarOpen(false)}
             className="ml-auto md:hidden text-muted-foreground hover:text-foreground"
@@ -64,7 +61,7 @@ export function AppSidebar() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-2 space-y-0.5">
+        <nav className="flex-1 px-3 py-1 space-y-0.5">
           {navItems.map((item) => {
             const active = location.pathname === item.path || (item.path === '/chat' && location.pathname === '/');
             return (
@@ -72,13 +69,13 @@ export function AppSidebar() {
                 key={item.path}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[13px] transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-2 rounded text-[12px] uppercase tracking-[0.1em] transition-colors ${
                   active
                     ? 'bg-secondary text-foreground font-medium'
                     : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
                 }`}
               >
-                <item.icon className="w-4 h-4" />
+                <item.icon className="w-3.5 h-3.5" />
                 <span>{item.title}</span>
               </Link>
             );
@@ -93,10 +90,10 @@ export function AppSidebar() {
                 connectionStatus === 'connected' ? 'animate-pulse-glow' : ''
               }`}
             />
-            <span className="text-[11px] text-muted-foreground">{statusText}</span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{statusText}</span>
           </div>
           {connectionStatus === 'connected' && config.host && (
-            <p className="text-[10px] text-hint mt-1 truncate font-mono">
+            <p className="text-[9px] text-hint mt-1 truncate font-mono">
               {config.username}@{config.host}
             </p>
           )}
